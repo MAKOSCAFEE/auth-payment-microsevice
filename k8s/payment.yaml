@@ -1,0 +1,48 @@
+---
+apiVersion: microservice/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: payment
+  name: payment
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: payment
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: payment
+    spec:
+      containers:
+        - image: payment:v1
+          imagePullPolicy: IfNotPresent
+          name: payment
+          ports:
+            - containerPort: 5000
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: payment
+  name: payment
+  namespace: default
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 5000
+  selector:
+    run: payment
+  sessionAffinity: None
+  type: ClusterIP
