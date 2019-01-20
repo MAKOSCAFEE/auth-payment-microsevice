@@ -8,6 +8,8 @@ import (
 )
 
 func main() {
+	addr := ":5000"
 	router := routers.NewRouter()
-	log.Fatal(http.ListenAndServe(":5000", router))
+	log.Println("Server has started at http://localhost:", addr)
+	log.Fatal(http.ListenAndServe(addr, router))
 }

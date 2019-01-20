@@ -11,7 +11,7 @@ WORKDIR $GOPATH/src/auth-payment-microservice/payment
 # Using go get.
 RUN go get -d -v
 # Build the binary.
-RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/payment
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /go/bin/payment
 ############################
 # STEP 2 build a small image
 ############################
@@ -21,11 +21,13 @@ FROM alpine:3.4
 RUN apk -U add ca-certificates
 
 EXPOSE 5000
+
+WORKDIR /root
 # Copy our static executable.
-COPY --from=builder /go/bin/payment /go/bin/payment
+COPY --from=builder /go/bin/payment .
 
 
 ADD config.yml /etc/payment/config.yml
 
 # Run the payment binary.
-ENTRYPOINT ["/go/bin/payment", "-config", "/etc/payment/config.yml"]
+ENTRYPOINT ["./payment", "-config", "/etc/payment/config.yml"]

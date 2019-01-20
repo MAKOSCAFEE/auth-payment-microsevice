@@ -17,9 +17,9 @@ docker_build: build
 	docker build -t payment:v1 ./payment
 	# docker build -t authentication:v1 ./auth
 	# docker build -t summary:v1 ./summary
-pack:
+pack: 
 	GOOS=linux make build
-	docker build -t gcr.io/barnie/payment:$(TAG) ./payment
+	docker build -t gcr.io/barnie/payment:v2beta1 ./payment
 
 serve: build
 	./payment/payment_build
@@ -28,8 +28,13 @@ clean:
 	rm ./payment/payment_build
 
 upload:
-	docker push gcr.io/barnie/payment:$(TAG)
+	docker push gcr.io/barnie/payment:v2beta1
 
-k8s: docker_build pack upload
+deploy:
+	kubectl apply -f ./k8s
+
+ship: test pack upload deploy clean 
+
+k8s: pack upload
 	kubectl apply -f ./k8s
 
