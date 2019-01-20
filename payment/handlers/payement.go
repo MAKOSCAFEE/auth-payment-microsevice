@@ -17,16 +17,16 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Welcome in the payment gateway!")
 }
 
-// HandlePayments : handlerFunction for /users/ url path
+// HandlePayments : handlerFunction for /payments/ url path
 func HandlePayments(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	users := managers.GetPayments()
+	payments := managers.GetPayments()
 
-	json.NewEncoder(w).Encode(users)
+	json.NewEncoder(w).Encode(payments)
 }
 
-// HandlePayment : handlerFunction for /user/{id} url path
+// HandlePayment : handlerFunction for /payements/{id} url path
 func HandlePayment(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -41,8 +41,8 @@ func HandlePayment(w http.ResponseWriter, r *http.Request) {
 
 	case "GET":
 
-		userItem := managers.GetPaymentByID(paymentID)
-		json.NewEncoder(w).Encode(userItem)
+		payementItem := managers.GetPaymentByID(paymentID)
+		json.NewEncoder(w).Encode(payementItem)
 
 	case "DELETE":
 		json.NewEncoder(w).Encode(models.Result{
