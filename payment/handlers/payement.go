@@ -1,13 +1,12 @@
 package handlers
 
 import (
+	"auth-payment-microservice/payment/managers"
+	"auth-payment-microservice/payment/models"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
-
-	"../managers"
-	"../models"
 
 	"github.com/gorilla/mux"
 )

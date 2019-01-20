@@ -3,7 +3,7 @@ package routers
 import (
 	"net/http"
 
-	"../handlers"
+	"auth-payment-microservice/payment/handlers"
 
 	"github.com/gorilla/mux"
 )

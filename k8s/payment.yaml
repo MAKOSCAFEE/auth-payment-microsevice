@@ -1,48 +1,33 @@
----
-apiVersion: microservice/v1beta1
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
+  name: payment-service
   labels:
-    run: payment
-  name: payment
-  namespace: default
+    app: payment-service
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      run: payment
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
+  replicas: 1
   template:
     metadata:
       labels:
-        run: payment
+        app: payment-service
     spec:
       containers:
-        - image: payment:v1
-          imagePullPolicy: IfNotPresent
-          name: payment
+        - name: payment-service
+          image: gcr.io/barnie/payment
+          command:
           ports:
             - containerPort: 5000
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
+
 ---
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
-  labels:
-    run: payment
-  name: payment
-  namespace: default
+  name: payment-service
 spec:
-  ports:
-    - port: 80
-      protocol: TCP
-      targetPort: 5000
+  type: LoadBalancer
   selector:
-    run: payment
-  sessionAffinity: None
-  type: ClusterIP
+    app: payment-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"./routers"
+	"auth-payment-microservice/payment/routers"
 )
 
 func main() {

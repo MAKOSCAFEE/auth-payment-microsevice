@@ -1,6 +1,6 @@
 package managers
 
-import "../models"
+import "auth-payment-microservice/payment/models"
 
 // GetPayments : Return list of users.
 func GetPayments() []models.Payment {
