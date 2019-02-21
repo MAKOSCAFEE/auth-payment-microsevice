@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: payment-service
-          image: gcr.io/barnie/payment:v2beta1
+          image: gcr.io/barnie/payment:v2beta2
           command:
           ports:
             - containerPort: 5000

@@ -2,13 +2,13 @@ package models
 
 // Payment : represent payment structure
 type Payment struct {
-	ID       int
-	Ref      string
-	Amount   float64
-	Currency string
+	ID       int     `json:"id"`
+	Ref      string  `json:"reference"`
+	Amount   float64 `json:"amount"`
+	Currency string  `json:"currency"`
 }
 
 // Result : represent result structure
 type Result struct {
-	Message string
+	Message string `json:"message"`
 }
